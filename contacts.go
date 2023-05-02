@@ -1,4 +1,4 @@
-package go_mautic
+package mautic
 
 import (
 	"context"

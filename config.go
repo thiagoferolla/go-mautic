@@ -1,4 +1,4 @@
-package go_mautic
+package mautic
 
 type ClientConfig struct {
 	baseUrl  string
