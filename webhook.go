@@ -50,15 +50,15 @@ func (c *Client) GetWebhook(ctx context.Context, id string) (*Webhook, error) {
 		return nil, err
 	}
 
-	var contact getWebhookResponse
+	var response getWebhookResponse
 
-	err = c.sendRequest(req, &contact)
+	err = c.sendRequest(req, &response)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &contact.hook, nil
+	return &response.hook, nil
 }
 
 type listWebhooksResponse struct {
@@ -75,9 +75,9 @@ func (c *Client) ListWebhooks(ctx context.Context) ([]Webhook, error) {
 		return nil, err
 	}
 
-	var contact listWebhooksResponse
+	var response listWebhooksResponse
 
-	err = c.sendRequest(req, &contact)
+	err = c.sendRequest(req, &response)
 
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (c *Client) ListWebhooks(ctx context.Context) ([]Webhook, error) {
 
 	var hooks []Webhook
 
-	for _, hook := range contact.hooks {
+	for _, hook := range response.hooks {
 		hooks = append(hooks, hook)
 	}
 
@@ -105,21 +105,21 @@ type WebhookParams struct {
 // CreateWebhook - API call to create a new webhook
 // Returns a pointer to a Webhook struct and a error
 func (c *Client) CreateWebhook(ctx context.Context, params WebhookParams) (*Webhook, error) {
-	req, err := c.buildRequest(ctx, http.MethodPost, "/hooks", params)
+	req, err := c.buildRequest(ctx, http.MethodPost, "/hooks/new", params)
 
 	if err != nil {
 		return nil, err
 	}
 
-	var contact getWebhookResponse
+	var response getWebhookResponse
 
-	err = c.sendRequest(req, &contact)
+	err = c.sendRequest(req, &response)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &contact.hook, nil
+	return &response.hook, nil
 }
 
 // EditWebhook - API call to edit a webhook by ID
@@ -136,21 +136,21 @@ func (c *Client) EditWebhook(ctx context.Context, params WebhookParams, createIf
 		return nil, ErrInvalidWebhookID
 	}
 
-	req, err := c.buildRequest(ctx, method, fmt.Sprintf("/hooks/%s", params.ID), params)
+	req, err := c.buildRequest(ctx, method, fmt.Sprintf("/hooks/%s/update", params.ID), params)
 
 	if err != nil {
 		return nil, err
 	}
 
-	var contact getWebhookResponse
+	var response getWebhookResponse
 
-	err = c.sendRequest(req, &contact)
+	err = c.sendRequest(req, &response)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &contact.hook, nil
+	return &response.hook, nil
 
 }
 
