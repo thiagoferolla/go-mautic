@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func (c Client) buildRequest(ctx context.Context, method, url string, request any) (*http.Request, error) {
@@ -52,7 +53,11 @@ func decodeResponse(body io.Reader, v any) error {
 }
 
 func (c Client) getFullUrl(endpoint string) string {
-	return fmt.Sprintf("%s%s", c.config.baseUrl, endpoint)
+	if strings.Contains(endpoint, "/api/") {
+		return fmt.Sprintf("%s%s", c.config.baseUrl, endpoint)
+	}
+
+	return fmt.Sprintf("%s/api/%s", c.config.baseUrl, endpoint)
 }
 
 func (c Client) sendRequest(req *http.Request, v any) error {
