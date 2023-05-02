@@ -3,6 +3,7 @@ package go_mautic
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -72,7 +73,7 @@ type getContactResponse struct {
 // GetContact - API call to get a contact by its contact ID
 // Returns a pointer to a Contact struct and an error
 func (c *Client) GetContact(ctx context.Context, id string) (*Contact, error) {
-	req, err := c.buildRequest(ctx, "GET", fmt.Sprintf("/api/contacts/%s", id), nil)
+	req, err := c.buildRequest(ctx, http.MethodGet, fmt.Sprintf("/contacts/%s", id), nil)
 
 	if err != nil {
 		return nil, err
@@ -97,7 +98,7 @@ type listContactResponse struct {
 // ListContacts - API call to get a list of contacts
 // Returns a slice of Contact structs and an error
 func (c *Client) ListContacts(ctx context.Context) ([]Contact, error) {
-	req, err := c.buildRequest(ctx, "GET", "/api/contacts", nil)
+	req, err := c.buildRequest(ctx, http.MethodGet, "/contacts", nil)
 
 	if err != nil {
 		return nil, err
@@ -160,7 +161,7 @@ func createContactRequestToPayload(pl CreateContactRequest) map[string]any {
 func (c *Client) CreateContact(ctx context.Context, pl CreateContactRequest) (*Contact, error) {
 	payload := createContactRequestToPayload(pl)
 
-	req, err := c.buildRequest(ctx, "POST", "/api/contacts/new", payload)
+	req, err := c.buildRequest(ctx, http.MethodPost, "/contacts/new", payload)
 
 	if err != nil {
 		return nil, err
@@ -187,7 +188,7 @@ func (c *Client) CreateBatchContact(ctx context.Context, pls []CreateContactRequ
 		payload = append(payload, createContactRequestToPayload(pl))
 	}
 
-	req, err := c.buildRequest(ctx, "POST", "/api/contacts/new", payload)
+	req, err := c.buildRequest(ctx, http.MethodPost, "/contacts/new", payload)
 
 	if err != nil {
 		return nil, err

@@ -3,6 +3,7 @@
 The unofficial Go client for the [Mautic](https://www.mautic.org/) Rest API.
 
 #### This is WIP project, we currently only support the endpoints for the following entities:
+- [x] Webhooks
 - [ ] Contacts (WIP)
 - [ ] Campaigns (WIP)
 
@@ -72,4 +73,3 @@ Roadmap:
 - [ ] Themes
 - [ ] Tweets
 - [ ] Users
-- [ ] Webhooks
