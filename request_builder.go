@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func (c Client) buildRequest(ctx context.Context, method, url string, request any) (*http.Request, error) {
+func (c *Client) buildRequest(ctx context.Context, method, url string, request any) (*http.Request, error) {
 	furl := c.getFullUrl(url)
 
 	if request == nil {
@@ -52,7 +52,7 @@ func decodeResponse(body io.Reader, v any) error {
 	return json.NewDecoder(body).Decode(v)
 }
 
-func (c Client) getFullUrl(endpoint string) string {
+func (c *Client) getFullUrl(endpoint string) string {
 	if strings.Contains(endpoint, "/api/") {
 		return fmt.Sprintf("%s%s", c.config.baseUrl, endpoint)
 	}
@@ -60,7 +60,7 @@ func (c Client) getFullUrl(endpoint string) string {
 	return fmt.Sprintf("%s/api/%s", c.config.baseUrl, endpoint)
 }
 
-func (c Client) sendRequest(req *http.Request, v any) error {
+func (c *Client) sendRequest(req *http.Request, v any) error {
 	req.Header.Set("Accept", "application/json; charset=utf-8")
 
 	req.SetBasicAuth(c.config.user, c.config.password)

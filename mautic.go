@@ -1,6 +1,9 @@
 package go_mautic
 
-import "net/http"
+import (
+	"errors"
+	"net/http"
+)
 
 type Client struct {
 	config ClientConfig
@@ -8,6 +11,12 @@ type Client struct {
 	httpClient *http.Client
 }
 
-func New(config ClientConfig) Client {
-	return Client{config, &http.Client{}}
+var ErrNoConfigProvided = errors.New("no config provided")
+
+func New(config *ClientConfig) (*Client, error) {
+	if config == nil {
+		return nil, ErrNoConfigProvided
+	}
+
+	return &Client{*config, &http.Client{}}, nil
 }

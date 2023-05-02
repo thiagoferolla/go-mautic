@@ -71,7 +71,7 @@ type getContactResponse struct {
 
 // GetContact - API call to get a contact by its contact ID
 // Returns a pointer to a Contact struct and an error
-func (c Client) GetContact(ctx context.Context, id string) (*Contact, error) {
+func (c *Client) GetContact(ctx context.Context, id string) (*Contact, error) {
 	req, err := c.buildRequest(ctx, "GET", fmt.Sprintf("/api/contacts/%s", id), nil)
 
 	if err != nil {
@@ -96,7 +96,7 @@ type listContactResponse struct {
 
 // ListContacts - API call to get a list of contacts
 // Returns a slice of Contact structs and an error
-func (c Client) ListContacts(ctx context.Context) ([]Contact, error) {
+func (c *Client) ListContacts(ctx context.Context) ([]Contact, error) {
 	req, err := c.buildRequest(ctx, "GET", "/api/contacts", nil)
 
 	if err != nil {
@@ -157,7 +157,7 @@ func createContactRequestToPayload(pl CreateContactRequest) map[string]any {
 // CreateContact - API call to create a new contact
 // Returns a pointer to a Contact struct and an error
 // If the contact already exists, the existing contact will be returned
-func (c Client) CreateContact(ctx context.Context, pl CreateContactRequest) (*Contact, error) {
+func (c *Client) CreateContact(ctx context.Context, pl CreateContactRequest) (*Contact, error) {
 	payload := createContactRequestToPayload(pl)
 
 	req, err := c.buildRequest(ctx, "POST", "/api/contacts/new", payload)
@@ -180,7 +180,7 @@ func (c Client) CreateContact(ctx context.Context, pl CreateContactRequest) (*Co
 // CreateBatchContact - API call to create multiple contacts at the same time
 // Returns a slice of Contact structs and an error
 // If any of the contacts already exist, the existing contacts will be returned
-func (c Client) CreateBatchContact(ctx context.Context, pls []CreateContactRequest) ([]Contact, error) {
+func (c *Client) CreateBatchContact(ctx context.Context, pls []CreateContactRequest) ([]Contact, error) {
 	var payload []map[string]any
 
 	for _, pl := range pls {

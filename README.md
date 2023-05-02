@@ -24,12 +24,16 @@ import (
 func main() {
 	ctx := context.Background()
 	
-	config := mautic.ClientConfig{}.
+	config := mautic.Config().
 		SetBaseURL("https://your-mautic-url.com").
 		SetUser("your-mautic-user").
 		SetPassword("your-mautic-password")
 	
-	m := mautic.New(config)
+	m, err := mautic.New(config)
+	
+	if err != nil {
+		panic(err)
+    }
 	
 	contacts, err := m.ListContacts(ctx)
 	

@@ -6,14 +6,24 @@ type ClientConfig struct {
 	password string
 }
 
-func (config *ClientConfig) SetBaseUrl(baseUrl string) {
+func Config() *ClientConfig {
+	return &ClientConfig{}
+}
+
+func (config *ClientConfig) SetBaseUrl(baseUrl string) *ClientConfig {
 	config.baseUrl = baseUrl
+
+	return config
 }
 
-func (config *ClientConfig) SetUser(user string) {
+func (config *ClientConfig) SetUser(user string) *ClientConfig {
 	config.user = user
+
+	return config
 }
 
-func (config *ClientConfig) SetPassword(password string) {
+func (config *ClientConfig) SetPassword(password string) *ClientConfig {
 	config.password = password
+
+	return config
 }
